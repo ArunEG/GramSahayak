@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gram-sahayak-v8';
+const CACHE_NAME = 'gram-sahayak-v9';
 
 const urlsToCache = [
   '/',
