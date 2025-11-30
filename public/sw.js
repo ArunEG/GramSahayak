@@ -1,11 +1,11 @@
-const CACHE_NAME = 'gram-sahayak-v3';
+const CACHE_NAME = 'gram-sahayak-v4';
 
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/icon-192.svg',
-  '/icon-512.svg',
+  '/icon-192.png',
+  '/icon-512.png',
   'https://cdn.tailwindcss.com',
   'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
   'https://aistudiocdn.com/@google/genai@^1.30.0',
