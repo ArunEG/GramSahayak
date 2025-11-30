@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { generateBroadcastMessage } from '../services/geminiService';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { UserProfile } from '../types';
 
 interface BroadcastManagerProps {
@@ -11,10 +12,13 @@ interface BroadcastManagerProps {
 
 const BroadcastManager: React.FC<BroadcastManagerProps> = ({ userProfile }) => {
   const { t, language: appLanguage } = useLanguage();
+  const { theme } = useTheme();
   const [topic, setTopic] = useState('');
   const [language, setLanguage] = useState<'English' | 'Hindi' | 'Hinglish' | 'Local'>('Local');
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const isDark = theme !== 'light';
 
   const handleDraft = async () => {
     if (!topic) {
@@ -41,21 +45,26 @@ const BroadcastManager: React.FC<BroadcastManagerProps> = ({ userProfile }) => {
 
   return (
     <div className="space-y-4">
-      <div className="bg-green-600 p-6 rounded-xl text-white shadow-md">
+      {/* Theme-aware Header Card */}
+      <div className={`p-6 rounded-xl shadow-md border ${
+        isDark 
+          ? 'bg-green-900/30 border-green-800 text-green-100' 
+          : 'bg-green-600 border-green-600 text-white'
+      }`}>
         <h2 className="text-xl font-bold mb-1 flex items-center gap-2">
           <span>📢</span> {t('connect_title')}
         </h2>
-        <p className="text-green-100 text-xs">
+        <p className={`text-xs ${isDark ? 'text-green-300' : 'text-green-100'}`}>
           {t('connect_desc')}
         </p>
       </div>
 
-      <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 space-y-4">
+      <div className="bg-[var(--bg-card)] p-4 rounded-xl shadow-sm border border-[var(--border-color)] space-y-4">
         <div>
-          <label className="block text-xs font-semibold text-gray-600 mb-1">{t('update_topic')}</label>
+          <label className="block text-xs font-semibold text-[var(--text-sub)] mb-1">{t('update_topic')}</label>
           <textarea
             rows={3}
-            className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 outline-none"
+            className="w-full p-3 border border-[var(--border-color)] rounded-lg text-sm bg-[var(--bg-input)] text-[var(--text-main)] focus:ring-2 focus:ring-green-500 outline-none placeholder-gray-400"
             placeholder="e.g. Vaccination camp at School tomorrow 10 AM. Everyone please come."
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
@@ -63,8 +72,8 @@ const BroadcastManager: React.FC<BroadcastManagerProps> = ({ userProfile }) => {
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-gray-600 mb-1">{t('lang_style')}</label>
-          <div className="flex gap-2 overflow-x-auto pb-2">
+          <label className="block text-xs font-semibold text-[var(--text-sub)] mb-1">{t('lang_style')}</label>
+          <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
             {(['Local', 'Hinglish', 'Hindi', 'English'] as const).map((lang) => (
               <button
                 key={lang}
@@ -72,7 +81,7 @@ const BroadcastManager: React.FC<BroadcastManagerProps> = ({ userProfile }) => {
                 className={`flex-1 py-2 px-3 text-xs rounded-md border font-medium transition-colors whitespace-nowrap ${
                   language === lang 
                     ? 'bg-green-600 text-white border-green-600' 
-                    : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+                    : 'bg-[var(--bg-main)] text-[var(--text-sub)] border-[var(--border-color)] hover:bg-[var(--bg-input)]'
                 }`}
               >
                 {lang === 'Local' ? t('app_name') === 'GramSahayak' ? 'Local' : 'Local Language' : lang}
@@ -93,13 +102,17 @@ const BroadcastManager: React.FC<BroadcastManagerProps> = ({ userProfile }) => {
       </div>
 
       {message && (
-        <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200 animate-slide-in">
-          <label className="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">
+        <div className="bg-[var(--bg-card)] p-4 rounded-xl shadow-md border border-[var(--border-color)] animate-slide-in">
+          <label className="block text-xs font-bold text-[var(--text-sub)] uppercase tracking-wide mb-2">
             {t('preview_msg')}
           </label>
           <textarea
             rows={8}
-            className="w-full p-3 bg-green-50 border border-green-100 rounded-lg text-sm text-gray-800 font-sans mb-3 focus:outline-none"
+            className={`w-full p-3 rounded-lg text-sm font-sans mb-3 focus:outline-none border ${
+              isDark 
+                ? 'bg-green-900/20 text-green-100 border-green-800' 
+                : 'bg-green-50 text-gray-800 border-green-100'
+            }`}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />

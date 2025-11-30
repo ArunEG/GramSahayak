@@ -1,5 +1,3 @@
-
-
 import React, { createContext, useContext, useState } from 'react';
 import { Language } from '../types';
 
@@ -132,6 +130,13 @@ const translations: Record<Language, Record<string, string>> = {
     theme_light: 'Light',
     theme_dark: 'Dark',
     theme_midnight: 'Midnight Blue',
+    // API
+    ai_settings: 'AI Configuration',
+    api_key_label: 'Gemini API Key',
+    api_key_desc: 'Enter your own API Key if you have one. Otherwise, the app uses the system default.',
+    api_saved: 'Key Saved',
+    save_key: 'Save Key',
+    clear_key: 'Clear Key',
   },
   hi: {
     ...baseTranslations,
@@ -249,6 +254,13 @@ const translations: Record<Language, Record<string, string>> = {
     theme_light: 'लाइट',
     theme_dark: 'डार्क',
     theme_midnight: 'मिडनाइट ब्लू',
+     // API
+    ai_settings: 'AI सेटिंग्स',
+    api_key_label: 'Gemini API कुंजी',
+    api_key_desc: 'यदि आपके पास है तो अपनी API कुंजी दर्ज करें।',
+    api_saved: 'कुंजी सहेजी गई',
+    save_key: 'सहेजें',
+    clear_key: 'हटाएं',
   },
   bn: {
     ...baseTranslations,
@@ -365,6 +377,12 @@ const translations: Record<Language, Record<string, string>> = {
     theme_light: 'লাইট',
     theme_dark: 'ডার্ক',
     theme_midnight: 'মিডনাইট ব্লু',
+    ai_settings: 'AI সেটিংস',
+    api_key_label: 'Gemini API কী',
+    api_key_desc: 'আপনার নিজস্ব API কী লিখুন।',
+    api_saved: 'সংরক্ষিত',
+    save_key: 'সংরক্ষণ',
+    clear_key: 'মুছুন',
   },
   te: {
     ...baseTranslations,
@@ -481,6 +499,12 @@ const translations: Record<Language, Record<string, string>> = {
     theme_light: 'లైట్',
     theme_dark: 'డార్క్',
     theme_midnight: 'మిడ్‌నైట్ బ్లూ',
+    ai_settings: 'AI సెట్టింగులు',
+    api_key_label: 'Gemini API కీ',
+    api_key_desc: 'మీ API కీని నమోదు చేయండి.',
+    api_saved: 'సేవ్ చేయబడింది',
+    save_key: 'సేవ్',
+    clear_key: 'తొలగించు',
   },
   ta: {
     ...baseTranslations,
@@ -597,6 +621,12 @@ const translations: Record<Language, Record<string, string>> = {
     theme_light: 'லைட்',
     theme_dark: 'டார்க்',
     theme_midnight: 'மிட்நைட் ப்ளூ',
+    ai_settings: 'AI அமைப்புகள்',
+    api_key_label: 'Gemini API விசை',
+    api_key_desc: 'உங்கள் API விசையை உள்ளிடவும்.',
+    api_saved: 'சேமிக்கப்பட்டது',
+    save_key: 'சேமி',
+    clear_key: 'அழி',
   },
   mr: {
     ...baseTranslations,
@@ -713,6 +743,12 @@ const translations: Record<Language, Record<string, string>> = {
     theme_light: 'लाईट',
     theme_dark: 'डार्क',
     theme_midnight: 'मिडनाईट ब्लू',
+    ai_settings: 'AI सेटिंग्ज',
+    api_key_label: 'Gemini API की',
+    api_key_desc: 'तुमची API की प्रविष्ट करा.',
+    api_saved: 'की सेव्ह केली',
+    save_key: 'सेव्ह',
+    clear_key: 'काढून टाका',
   },
   gu: {
     ...baseTranslations,
@@ -829,6 +865,12 @@ const translations: Record<Language, Record<string, string>> = {
     theme_light: 'લાઇટ',
     theme_dark: 'ડાર્ક',
     theme_midnight: 'મિડનાઇટ બ્લુ',
+    ai_settings: 'AI સેટિંગ્સ',
+    api_key_label: 'Gemini API કી',
+    api_key_desc: 'તમારી API કી દાખલ કરો.',
+    api_saved: 'સાચવ્યું',
+    save_key: 'સાચવો',
+    clear_key: 'દૂર કરો',
   },
   kn: {
     ...baseTranslations,
@@ -945,6 +987,12 @@ const translations: Record<Language, Record<string, string>> = {
     theme_light: 'ಲೈಟ್',
     theme_dark: 'ಡಾರ್ಕ್',
     theme_midnight: 'ಮಿಡ್‌ನೈಟ್ ಬ್ಲೂ',
+    ai_settings: 'AI ಸೆಟ್ಟಿಂಗ್‌ಗಳು',
+    api_key_label: 'Gemini API ಕೀ',
+    api_key_desc: 'ನಿಮ್ಮ API ಕೀಲಿಯನ್ನು ನಮೂದಿಸಿ.',
+    api_saved: 'ಉಳಿಸಲಾಗಿದೆ',
+    save_key: 'ಉಳಿಸಿ',
+    clear_key: 'ಅಳಿಸು',
   },
   ml: {
     ...baseTranslations,
@@ -1061,6 +1109,12 @@ const translations: Record<Language, Record<string, string>> = {
     theme_light: 'ലൈറ്റ്',
     theme_dark: 'ഡാർക്ക്',
     theme_midnight: 'മിഡ്നൈറ്റ് ബ്ലൂ',
+    ai_settings: 'AI ക്രമീകരണങ്ങൾ',
+    api_key_label: 'Gemini API കീ',
+    api_key_desc: 'നിങ്ങളുടെ API കീ നൽകുക.',
+    api_saved: 'സേവ് ചെയ്തു',
+    save_key: 'സേവ്',
+    clear_key: 'മായ്ക്കുക',
   },
   pa: {
     ...baseTranslations,
@@ -1177,6 +1231,12 @@ const translations: Record<Language, Record<string, string>> = {
     theme_light: 'ਲਾਈਟ',
     theme_dark: 'ਡਾਰਕ',
     theme_midnight: 'ਮਿਡਨਾਈਟ ਬਲੂ',
+    ai_settings: 'AI ਸੈਟਿੰਗਾਂ',
+    api_key_label: 'Gemini API ਕੁੰਜੀ',
+    api_key_desc: 'ਆਪਣੀ API ਕੁੰਜੀ ਦਰਜ ਕਰੋ।',
+    api_saved: 'ਸੁਰੱਖਿਅਤ ਕੀਤਾ',
+    save_key: 'ਸੇਵ',
+    clear_key: 'ਹਟਾਓ',
   },
 };
 

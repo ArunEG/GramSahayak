@@ -5,13 +5,13 @@
   "description": "A digital assistant for Indian Panchayat members to manage grievances, draft official letters via AI, and track village development works.",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2983/2983804.png",
+      "src": "./icon-192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2983/2983804.png",
+      "src": "./icon-512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
@@ -23,6 +23,15 @@
   "background_color": "#f3f4f6",
   "orientation": "portrait",
   "categories": ["productivity", "social", "government"],
+  "shortcuts": [
+    {
+      "name": "Log Grievance",
+      "short_name": "Grievance",
+      "description": "Log a new village grievance",
+      "url": "./index.html?action=grievance",
+      "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }]
+    }
+  ],
   "screenshots": [
     {
       "src": "https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=crop&w=500&q=60",

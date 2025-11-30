@@ -1,10 +1,16 @@
-
-
 import { GoogleGenAI } from "@google/genai";
 import { Language, UserProfile } from '../types';
 
-const apiKey = process.env.API_KEY || '';
-const ai = new GoogleGenAI({ apiKey });
+// Helper to get the most up-to-date API Key
+// Checks LocalStorage first (User Setting), then Environment Variable (Deployment Setting)
+const getAiClient = (): GoogleGenAI | null => {
+  const localKey = localStorage.getItem('gramSahayak_apiKey');
+  const envKey = process.env.API_KEY;
+  const key = localKey || envKey;
+
+  if (!key) return null;
+  return new GoogleGenAI({ apiKey: key });
+};
 
 const getLanguageName = (code: string): string => {
   const map: Record<string, string> = {
@@ -30,7 +36,8 @@ export const generateOfficialLetter = async (
   tone: 'Formal' | 'Urgent' | 'Request' = 'Formal',
   language: Language = 'en'
 ): Promise<string> => {
-  if (!apiKey) throw new Error("API Key is missing");
+  const ai = getAiClient();
+  if (!ai) return "Error: API Key is missing. Please add it in Settings.";
 
   const langName = getLanguageName(language);
 
@@ -70,12 +77,13 @@ export const generateOfficialLetter = async (
     return response.text || "Failed to generate letter.";
   } catch (error) {
     console.error("Error generating letter:", error);
-    return "Error: Could not generate draft. Please check your connection.";
+    return "Error: Could not generate draft. Please check your connection or API Key.";
   }
 };
 
 export const askSchemeInfo = async (query: string, language: Language = 'en'): Promise<string> => {
-  if (!apiKey) throw new Error("API Key is missing");
+  const ai = getAiClient();
+  if (!ai) return "Error: API Key is missing. Please add it in Settings.";
 
   const langName = getLanguageName(language);
 
@@ -103,7 +111,7 @@ export const askSchemeInfo = async (query: string, language: Language = 'en'): P
     return response.text || "No information found.";
   } catch (error) {
     console.error("Error fetching scheme info:", error);
-    return "Error: Could not retrieve information.";
+    return "Error: Could not retrieve information. Please check your connection.";
   }
 };
 
@@ -113,7 +121,8 @@ export const generateBroadcastMessage = async (
   language: 'English' | 'Hindi' | 'Hinglish' | 'Local' = 'Hinglish',
   appLanguage: Language = 'en'
 ): Promise<string> => {
-  if (!apiKey) throw new Error("API Key is missing");
+  const ai = getAiClient();
+  if (!ai) return "Error: API Key is missing. Please add it in Settings.";
 
   let targetLang = language;
   if (language === 'Local') {

@@ -23,6 +23,8 @@ const GrievanceLog: React.FC<GrievanceLogProps> = ({
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedGrievanceId, setSelectedGrievanceId] = useState<string | null>(null);
   
+  const isDark = theme !== 'light';
+
   // Filter States
   const [statusFilter, setStatusFilter] = useState<GrievanceStatus | 'ALL'>('ALL');
   const [priorityFilter, setPriorityFilter] = useState<GrievancePriority | 'ALL'>('ALL');
@@ -92,8 +94,6 @@ const GrievanceLog: React.FC<GrievanceLogProps> = ({
   };
 
   const getPriorityColor = (p: GrievancePriority) => {
-    const isDark = theme !== 'light';
-    
     switch (p) {
       case GrievancePriority.URGENT: 
         return isDark 
@@ -113,6 +113,27 @@ const GrievanceLog: React.FC<GrievanceLogProps> = ({
           : 'bg-green-100 text-green-900 border-green-200';
       default: 
         return isDark ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-800';
+    }
+  };
+  
+  const getStatusStyle = (s: GrievanceStatus) => {
+    switch(s) {
+      case GrievanceStatus.RESOLVED: 
+        return isDark 
+          ? 'bg-emerald-900/30 text-emerald-300 border-emerald-800' 
+          : 'bg-emerald-100 text-emerald-800 border-emerald-200';
+      case GrievanceStatus.IN_PROGRESS: 
+        return isDark 
+          ? 'bg-amber-900/30 text-amber-300 border-amber-800' 
+          : 'bg-amber-100 text-amber-800 border-amber-200';
+      case GrievanceStatus.PENDING: 
+        return isDark 
+          ? 'bg-red-900/30 text-red-300 border-red-800' 
+          : 'bg-red-100 text-red-800 border-red-200';
+      default: 
+        return isDark 
+          ? 'bg-gray-800 text-gray-300 border-gray-700' 
+          : 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
@@ -296,12 +317,12 @@ const GrievanceLog: React.FC<GrievanceLogProps> = ({
 
               <div className="flex gap-2 mt-2 pt-2 border-t border-[var(--border-color)]">
                   <span 
-                    className={`flex-1 text-center text-xs py-1.5 rounded border bg-gray-800 text-white border-gray-800`}
+                    className={`flex-1 text-center text-xs py-1.5 rounded border font-medium ${getStatusStyle(g.status)}`}
                   >
                     {g.status}
                   </span>
                   <button 
-                    className="flex-1 text-center text-xs py-1.5 rounded border bg-[var(--bg-card)] text-[var(--text-sub)] border-[var(--border-color)]"
+                    className="flex-1 text-center text-xs py-1.5 rounded border bg-[var(--bg-card)] text-[var(--text-sub)] border-[var(--border-color)] hover:bg-[var(--bg-main)]"
                   >
                     {t('view_details')}
                   </button>

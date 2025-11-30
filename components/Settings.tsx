@@ -16,13 +16,23 @@ const Settings: React.FC<SettingsProps> = ({ onBack }) => {
   const [newPin, setNewPin] = useState('');
   const [loadingBio, setLoadingBio] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<any>(null);
+  
+  // API Key State
+  const [apiKey, setApiKey] = useState('');
+  const [showKeyInput, setShowKeyInput] = useState(false);
 
   useEffect(() => {
+    // Install Prompt
     const handler = (e: any) => {
       e.preventDefault();
       setInstallPrompt(e);
     };
     window.addEventListener('beforeinstallprompt', handler);
+    
+    // Check for existing API Key
+    const existingKey = localStorage.getItem('gramSahayak_apiKey');
+    if (existingKey) setApiKey(existingKey);
+
     return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
 
@@ -55,6 +65,18 @@ const Settings: React.FC<SettingsProps> = ({ onBack }) => {
     } else {
       alert(t('bio_error'));
     }
+  };
+
+  const handleSaveApiKey = () => {
+    localStorage.setItem('gramSahayak_apiKey', apiKey);
+    setShowKeyInput(false);
+    alert(t('api_saved'));
+  };
+
+  const handleClearApiKey = () => {
+    localStorage.removeItem('gramSahayak_apiKey');
+    setApiKey('');
+    alert('Key removed');
   };
 
   const themes: { id: AppTheme; label: string; icon: string; color: string }[] = [
@@ -91,6 +113,55 @@ const Settings: React.FC<SettingsProps> = ({ onBack }) => {
             </button>
         </div>
       )}
+
+      {/* API Key Settings */}
+      <div className="bg-[var(--bg-card)] p-4 rounded-xl shadow-sm border border-[var(--border-color)]">
+         <h3 className="font-bold text-[var(--text-main)] mb-1">{t('ai_settings')}</h3>
+         <p className="text-xs text-[var(--text-sub)] mb-3">{t('api_key_desc')}</p>
+         
+         {!showKeyInput ? (
+           <div className="flex justify-between items-center bg-[var(--bg-main)] p-2 rounded border border-[var(--border-color)]">
+              <span className="text-sm text-[var(--text-sub)] font-mono">
+                {apiKey ? '••••••••••••••••' : 'No Key Set'}
+              </span>
+              <div className="flex gap-2">
+                 <button 
+                    onClick={() => setShowKeyInput(true)} 
+                    className="text-xs bg-gray-200 dark:bg-gray-700 text-[var(--text-main)] px-2 py-1 rounded"
+                 >
+                    {apiKey ? 'Edit' : 'Add'}
+                 </button>
+                 {apiKey && (
+                   <button onClick={handleClearApiKey} className="text-xs text-red-500 px-2 py-1">✕</button>
+                 )}
+              </div>
+           </div>
+         ) : (
+           <div className="space-y-2">
+             <input 
+               type="text" 
+               className="w-full p-2 text-sm border border-[var(--border-color)] rounded bg-[var(--bg-input)] text-[var(--text-main)]"
+               placeholder="Paste your Gemini API Key here"
+               value={apiKey}
+               onChange={(e) => setApiKey(e.target.value)}
+             />
+             <div className="flex gap-2">
+               <button 
+                 onClick={handleSaveApiKey}
+                 className="flex-1 bg-green-600 text-white text-xs font-bold py-2 rounded"
+               >
+                 {t('save_key')}
+               </button>
+               <button 
+                 onClick={() => setShowKeyInput(false)}
+                 className="flex-1 bg-gray-300 text-gray-700 text-xs font-bold py-2 rounded"
+               >
+                 {t('cancel')}
+               </button>
+             </div>
+           </div>
+         )}
+      </div>
 
       {/* Theme Settings */}
       <div className="bg-[var(--bg-card)] p-4 rounded-xl shadow-sm border border-[var(--border-color)]">

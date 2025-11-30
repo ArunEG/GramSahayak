@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { TabView, Language, UserProfile } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -41,7 +42,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, user
   ];
 
   return (
-    <div className={`theme-${theme} min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col max-w-md mx-auto shadow-2xl overflow-hidden border-x border-[var(--border-color)] font-sans`}>
+    <div className={`theme-${theme} min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col max-w-md mx-auto shadow-2xl overflow-hidden border-x border-[var(--border-color)] font-sans transition-colors duration-300`}>
       {/* Header */}
       <header className="bg-orange-600 text-white p-4 sticky top-0 z-50 shadow-md pt-[env(safe-area-inset-top,20px)]">
         <div className="flex justify-between items-center">
@@ -85,14 +86,16 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, user
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`flex flex-col items-center justify-center min-w-[60px] h-full transition-colors ${
+              className={`flex flex-col items-center justify-center min-w-[60px] h-full transition-all duration-200 ${
                 activeTab === item.id
-                  ? 'text-orange-600 border-t-2 border-orange-600 bg-orange-50 dark:bg-gray-800'
-                  : 'text-[var(--text-sub)] hover:text-[var(--text-main)]'
+                  ? 'text-orange-600 dark:text-orange-400 border-t-2 border-orange-600 dark:border-orange-400'
+                  : 'text-[var(--text-sub)] hover:text-[var(--text-main)] border-t-2 border-transparent hover:bg-[var(--bg-main)]'
               }`}
             >
-              <span className="text-xl mb-1">{item.icon}</span>
-              <span className="text-[9px] uppercase font-medium tracking-wide">
+              <span className={`text-xl mb-1 transform transition-transform ${activeTab === item.id ? 'scale-110' : ''}`}>
+                {item.icon}
+              </span>
+              <span className={`text-[9px] uppercase font-bold tracking-wide ${activeTab === item.id ? 'opacity-100' : 'opacity-70'}`}>
                 {item.label}
               </span>
             </button>
