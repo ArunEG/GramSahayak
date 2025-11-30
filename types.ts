@@ -1,4 +1,12 @@
 
+/**
+ * Data Models & Type Definitions
+ * ------------------------------
+ * This file defines the core schema for the application.
+ * All interfaces are designed to be JSON-serializable for easy storage in localStorage.
+ */
+
+// --- Grievance Module ---
 
 export enum GrievanceStatus {
   PENDING = 'Pending',
@@ -23,25 +31,34 @@ export enum GrievanceCategory {
   OTHER = 'Other',
 }
 
+/**
+ * Represents an audit trail entry for a grievance.
+ * Used to track history of changes for accountability.
+ */
 export interface GrievanceAction {
   id: string;
   type: 'STATUS_CHANGE' | 'NOTE' | 'EVENT_LINKED';
   description: string;
-  date: string; // ISO String
+  date: string; // ISO String (YYYY-MM-DDTHH:mm:ss.sssZ)
 }
 
+/**
+ * The core entity representing a complaint or issue log.
+ */
 export interface Grievance {
-  id: string;
+  id: string; // Unique ID (Timestamp or UUID)
   citizenName: string;
   mobile: string;
   category: GrievanceCategory;
   description: string;
   status: GrievanceStatus;
   priority: GrievancePriority;
-  dateLogged: string;
+  dateLogged: string; // YYYY-MM-DD
   wardNumber: string;
-  actions: GrievanceAction[];
+  actions: GrievanceAction[]; // History of actions taken
 }
+
+// --- Schedule/Calendar Module ---
 
 export enum EventType {
   VISIT = 'Site Visit',
@@ -57,16 +74,26 @@ export enum EventStatus {
   POSTPONED = 'Postponed'
 }
 
+/**
+ * Represents a calendar entry. Can be linked to a grievance.
+ */
 export interface CalendarEvent {
   id: string;
   title: string;
   date: string; // YYYY-MM-DD
   time: string; // HH:mm
   type: EventType;
-  grievanceId?: string; // Optional link to a grievance
+  /**
+   * Optional Link:
+   * If this event was created to address a specific grievance (e.g., site visit),
+   * this ID links back to the Grievance entity.
+   */
+  grievanceId?: string; 
   status: EventStatus;
   notes?: string;
 }
+
+// --- AI & Content ---
 
 export interface SchemeInfo {
   name: string;
@@ -75,6 +102,8 @@ export interface SchemeInfo {
   documentsRequired: string[];
 }
 
+// --- User & Config ---
+
 export interface UserProfile {
   name: string;
   wardNumber: string;
@@ -82,12 +111,18 @@ export interface UserProfile {
   mobile: string;
 }
 
+/**
+ * Configuration for App Security.
+ * Stored in localStorage to persist lock settings.
+ */
 export interface SecurityConfig {
   isEnabled: boolean;
   method: 'PIN' | 'BIOMETRIC';
   pin: string; // 4 digit pin (used if method is PIN)
-  credentialId?: string; // Base64 string for WebAuthn credential
+  credentialId?: string; // Base64 string for WebAuthn credential ID (if biometric)
 }
+
+// --- UI State ---
 
 export type TabView = 'DASHBOARD' | 'GRIEVANCES' | 'SCHEDULE' | 'DRAFTER' | 'SCHEMES' | 'CONNECT' | 'SETTINGS';
 

@@ -1,8 +1,24 @@
 import { GoogleGenAI } from "@google/genai";
 import { Language, UserProfile } from '../types';
 
-// Helper to get the most up-to-date API Key
-// Checks LocalStorage first (User Setting), then Environment Variable (Deployment Setting)
+/**
+ * Service Layer: Google Gemini AI Integration
+ * -------------------------------------------
+ * This module handles all interactions with the Google GenAI SDK.
+ * It is designed to be:
+ * 1. Resilient: Checks for API keys in multiple locations (Env vs LocalStorage).
+ * 2. Context-Aware: Injects user profile data (Name, Ward) into every prompt.
+ * 3. Multilingual: Maps app language codes to natural language names for the LLM.
+ */
+
+/**
+ * Retrieves the GoogleGenAI client instance.
+ * Priority:
+ * 1. LocalStorage (User-provided key via Settings) - Allows dynamic key usage without redeploy.
+ * 2. Process.env (Build-time key) - Fallback for default deployments.
+ * 
+ * @returns {GoogleGenAI | null} The authenticated client or null if no key is found.
+ */
 const getAiClient = (): GoogleGenAI | null => {
   const localKey = localStorage.getItem('gramSahayak_apiKey');
   const envKey = process.env.API_KEY;
@@ -12,6 +28,11 @@ const getAiClient = (): GoogleGenAI | null => {
   return new GoogleGenAI({ apiKey: key });
 };
 
+/**
+ * Maps ISO language codes to full English names.
+ * This is crucial because LLMs follow instructions better when the target language
+ * is specified by name (e.g., "Write in Telugu") rather than code (e.g., "te").
+ */
 const getLanguageName = (code: string): string => {
   const map: Record<string, string> = {
     en: 'English',
@@ -28,6 +49,21 @@ const getLanguageName = (code: string): string => {
   return map[code] || 'English';
 };
 
+/**
+ * Generates a formal official letter based on user inputs.
+ * 
+ * Architecture Note:
+ * This function constructs a "Few-Shot" style prompt where the context
+ * (Sender Details) is strictly defined to ensure the generated output
+ * is ready-to-print without manual editing.
+ * 
+ * @param recipient - The official designation of the receiver (e.g., BDO).
+ * @param subject - The core issue.
+ * @param details - Rough notes provided by the user.
+ * @param userProfile - Used to generate the official signature.
+ * @param tone - Adjusts the vocabulary (Formal vs Urgent).
+ * @param language - The target output language.
+ */
 export const generateOfficialLetter = async (
   recipient: string,
   subject: string,
@@ -81,6 +117,14 @@ export const generateOfficialLetter = async (
   }
 };
 
+/**
+ * Queries the AI for information regarding Government Schemes (Yojnas).
+ * 
+ * Design Decision:
+ * We use Markdown formatting in the prompt instructions to ensure the
+ * rendered output in the React component is structured (bullet points, bold text)
+ * and easy to read on mobile devices.
+ */
 export const askSchemeInfo = async (query: string, language: Language = 'en'): Promise<string> => {
   const ai = getAiClient();
   if (!ai) return "Error: API Key is missing. Please add it in Settings.";
@@ -115,6 +159,13 @@ export const askSchemeInfo = async (query: string, language: Language = 'en'): P
   }
 };
 
+/**
+ * Generates a social media (WhatsApp) broadcast message.
+ * 
+ * Feature Highlight:
+ * Supports 'Hinglish' (Hindi written in English script) which is the 
+ * dominant mode of digital communication in rural India.
+ */
 export const generateBroadcastMessage = async (
   topic: string, 
   userProfile: UserProfile,

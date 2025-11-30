@@ -14,7 +14,18 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { SecurityProvider, useSecurity } from './contexts/SecurityContext';
 import { Grievance, GrievanceStatus, GrievanceCategory, TabView, GrievancePriority, CalendarEvent, EventType, EventStatus, GrievanceAction, UserProfile } from './types';
 
-// Mock Data
+/**
+ * App.tsx - Main Application Controller
+ * -------------------------------------
+ * This component acts as the "Controller" in the MVC pattern.
+ * Responsibilities:
+ * 1. State Container: Holds the "Source of Truth" for Grievances, Events, and User Profile.
+ * 2. Routing: Manages the active tab (View) being displayed.
+ * 3. Background Services: Runs the notification loop for upcoming events.
+ * 4. Auth Gate: Checks authentication status via SecurityContext before rendering content.
+ */
+
+// Mock Data for initial demo experience
 const initialGrievances: Grievance[] = [
   {
     id: '1',
@@ -85,15 +96,16 @@ const initialEvents: CalendarEvent[] = [
 
 const MainContent: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabView>('DASHBOARD');
+  // In a real app, these states would be initialized from LocalStorage or IndexedDB
   const [grievances, setGrievances] = useState<Grievance[]>(initialGrievances);
   const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [isCheckingUser, setIsCheckingUser] = useState(true);
 
-  // Security Context
+  // Security Context Consumption
   const { isAuthenticated } = useSecurity();
 
-  // Load User Profile
+  // Load User Profile on Mount
   useEffect(() => {
     const storedUser = localStorage.getItem('gramSahayak_user');
     if (storedUser) {
@@ -108,6 +120,7 @@ const MainContent: React.FC = () => {
   };
 
   // --- Notification Logic ---
+  // Runs a check every minute to see if any event is starting in 15 mins
   useEffect(() => {
     if ("Notification" in window) {
       Notification.requestPermission();
@@ -137,6 +150,8 @@ const MainContent: React.FC = () => {
   }, [events]);
 
   // --- Grievance Logic ---
+  // CRUD Operations passed down to GrievanceLog component
+
   const addGrievance = (g: Grievance) => {
     setGrievances([g, ...grievances]);
   };
@@ -144,6 +159,7 @@ const MainContent: React.FC = () => {
   const updateStatus = (id: string, status: GrievanceStatus) => {
     setGrievances(prev => prev.map(g => {
         if (g.id === id) {
+            // Create an audit trail entry
             const action: GrievanceAction = {
                 id: Date.now().toString(),
                 type: 'STATUS_CHANGE',
@@ -181,6 +197,7 @@ const MainContent: React.FC = () => {
   // --- Event Logic ---
   const addEvent = (e: CalendarEvent) => {
     setEvents(prev => [...prev, e]);
+    // If event is linked to a grievance, add an audit log to that grievance
     if (e.grievanceId) {
         setGrievances(prev => prev.map(g => {
             if (g.id === e.grievanceId) {
@@ -209,21 +226,20 @@ const MainContent: React.FC = () => {
     setEvents(prev => prev.filter(e => e.id !== id));
   };
 
-  if (isCheckingUser) return null; // Or a loading spinner
+  // --- Render Flow ---
+  if (isCheckingUser) return null; // Loading state
 
-  // Logic: 
-  // 1. If Locked -> Show Lock Screen (AppLock)
-  // 2. If Not Registered -> Show Registration
-  // 3. Show App Content
-
+  // 1. Security Check: If locked, show Lock Screen
   if (!isAuthenticated) {
     return <AppLock />;
   }
 
+  // 2. Onboarding Check: If no profile, show Registration
   if (!userProfile) {
     return <Registration onRegister={handleRegister} />;
   }
 
+  // 3. Main Application View Switcher
   const renderContent = () => {
     switch (activeTab) {
       case 'DASHBOARD':
@@ -271,6 +287,7 @@ const MainContent: React.FC = () => {
   );
 };
 
+// Root Component wrapping all Context Providers
 const App: React.FC = () => {
   return (
     <ThemeProvider>
