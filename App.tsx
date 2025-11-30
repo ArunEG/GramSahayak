@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
@@ -12,6 +10,7 @@ import Registration from './components/Registration';
 import Settings from './components/Settings';
 import AppLock from './components/AppLock';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { SecurityProvider, useSecurity } from './contexts/SecurityContext';
 import { Grievance, GrievanceStatus, GrievanceCategory, TabView, GrievancePriority, CalendarEvent, EventType, EventStatus, GrievanceAction, UserProfile } from './types';
 
@@ -259,7 +258,7 @@ const MainContent: React.FC = () => {
       case 'CONNECT':
         return <BroadcastManager userProfile={userProfile} />;
       case 'SETTINGS':
-        return <Settings />;
+        return <Settings onBack={() => setActiveTab('DASHBOARD')} />;
       default:
         return <Dashboard grievances={grievances} userProfile={userProfile} />;
     }
@@ -274,11 +273,13 @@ const MainContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <LanguageProvider>
-      <SecurityProvider>
-        <MainContent />
-      </SecurityProvider>
-    </LanguageProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <SecurityProvider>
+          <MainContent />
+        </SecurityProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 };
 

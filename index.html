@@ -16,9 +16,43 @@
         --sat: env(safe-area-inset-top);
         --sab: env(safe-area-inset-bottom);
       }
+      
+      /* Theme Definitions */
+      .theme-light {
+        --bg-main: #f3f4f6;
+        --bg-card: #ffffff;
+        --bg-input: #ffffff;
+        --text-main: #1f2937;
+        --text-sub: #4b5563;
+        --border-color: #e5e7eb;
+        --shadow-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .theme-dark {
+        --bg-main: #111827; /* Gray 900 */
+        --bg-card: #1f2937; /* Gray 800 */
+        --bg-input: #374151; /* Gray 700 */
+        --text-main: #f3f4f6; /* Gray 100 */
+        --text-sub: #9ca3af; /* Gray 400 */
+        --border-color: #374151; /* Gray 700 */
+        --shadow-color: rgba(0, 0, 0, 0.3);
+      }
+
+      .theme-midnight {
+        --bg-main: #0f172a; /* Slate 900 */
+        --bg-card: #1e293b; /* Slate 800 */
+        --bg-input: #334155; /* Slate 700 */
+        --text-main: #e2e8f0; /* Slate 200 */
+        --text-sub: #94a3b8; /* Slate 400 */
+        --border-color: #334155; /* Slate 700 */
+        --shadow-color: rgba(0, 0, 0, 0.3);
+      }
+
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #f3f4f6;
+        background-color: var(--bg-main);
+        color: var(--text-main);
+        transition: background-color 0.3s, color 0.3s;
         -webkit-tap-highlight-color: transparent;
         /* Native App Feel Enhancements */
         overscroll-behavior-y: none; /* Prevents pull-to-refresh on mobile */
@@ -35,6 +69,9 @@
       input, textarea {
         user-select: text; /* Allow typing in forms */
         -webkit-user-select: text;
+        background-color: var(--bg-input);
+        color: var(--text-main);
+        border-color: var(--border-color);
       }
       /* Smooth transitions for view switching */
       .animate-fade-in {

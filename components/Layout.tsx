@@ -1,6 +1,7 @@
 import React from 'react';
 import { TabView, Language, UserProfile } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, userProfile }) => {
   const { language, setLanguage, t } = useLanguage();
+  const { theme } = useTheme();
 
   const navItems: { id: TabView; label: string; icon: string }[] = [
     { id: 'DASHBOARD', label: t('nav_home'), icon: '🏠' },
@@ -39,7 +41,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, user
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col max-w-md mx-auto shadow-2xl overflow-hidden border-x border-gray-200 font-sans">
+    <div className={`theme-${theme} min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col max-w-md mx-auto shadow-2xl overflow-hidden border-x border-[var(--border-color)] font-sans`}>
       {/* Header */}
       <header className="bg-orange-600 text-white p-4 sticky top-0 z-50 shadow-md pt-[env(safe-area-inset-top,20px)]">
         <div className="flex justify-between items-center">
@@ -77,7 +79,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, user
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="bg-white border-t border-gray-200 fixed bottom-0 w-full max-w-md z-40 overflow-x-auto no-scrollbar pb-[env(safe-area-inset-bottom,0px)]">
+      <nav className="bg-[var(--bg-card)] border-t border-[var(--border-color)] fixed bottom-0 w-full max-w-md z-40 overflow-x-auto no-scrollbar pb-[env(safe-area-inset-bottom,0px)]">
         <div className="flex justify-between items-center h-16 min-w-full px-1">
           {navItems.map((item) => (
             <button
@@ -85,8 +87,8 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, user
               onClick={() => setActiveTab(item.id)}
               className={`flex flex-col items-center justify-center min-w-[60px] h-full transition-colors ${
                 activeTab === item.id
-                  ? 'text-orange-600 border-t-2 border-orange-600 bg-orange-50'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'text-orange-600 border-t-2 border-orange-600 bg-orange-50 dark:bg-gray-800'
+                  : 'text-[var(--text-sub)] hover:text-[var(--text-main)]'
               }`}
             >
               <span className="text-xl mb-1">{item.icon}</span>

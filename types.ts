@@ -92,3 +92,5 @@ export interface SecurityConfig {
 export type TabView = 'DASHBOARD' | 'GRIEVANCES' | 'SCHEDULE' | 'DRAFTER' | 'SCHEMES' | 'CONNECT' | 'SETTINGS';
 
 export type Language = 'en' | 'hi' | 'bn' | 'te' | 'mr' | 'ta' | 'gu' | 'kn' | 'ml' | 'pa';
+
+export type AppTheme = 'light' | 'dark' | 'midnight';

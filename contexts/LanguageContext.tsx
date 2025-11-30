@@ -127,6 +127,11 @@ const translations: Record<Language, Record<string, string>> = {
     bio_error: 'Authentication failed. Use fallback if available.',
     setup_bio_btn: 'Setup Device Lock',
     bio_not_supported: 'Device lock not supported on this browser.',
+    // Theme
+    app_theme: 'App Theme',
+    theme_light: 'Light',
+    theme_dark: 'Dark',
+    theme_midnight: 'Midnight Blue',
   },
   hi: {
     ...baseTranslations,
@@ -239,6 +244,11 @@ const translations: Record<Language, Record<string, string>> = {
     bio_error: 'प्रमाणीकरण विफल।',
     setup_bio_btn: 'डिवाइस लॉक सेट करें',
     bio_not_supported: 'इस ब्राउज़र पर डिवाइस लॉक समर्थित नहीं है।',
+    // Theme
+    app_theme: 'ऐप थीम',
+    theme_light: 'लाइट',
+    theme_dark: 'डार्क',
+    theme_midnight: 'मिडनाइट ब्लू',
   },
   bn: {
     ...baseTranslations,
@@ -351,6 +361,10 @@ const translations: Record<Language, Record<string, string>> = {
     bio_error: 'যাচাইকরণ ব্যর্থ হয়েছে।',
     setup_bio_btn: 'ডিভাইস লক সেট করুন',
     bio_not_supported: 'এই ব্রাউজারে সমর্থিত নয়।',
+    app_theme: 'অ্যাপ থিম',
+    theme_light: 'লাইট',
+    theme_dark: 'ডার্ক',
+    theme_midnight: 'মিডনাইট ব্লু',
   },
   te: {
     ...baseTranslations,
@@ -463,6 +477,10 @@ const translations: Record<Language, Record<string, string>> = {
     bio_error: 'ప్రామాణీకరణ విఫలమైంది.',
     setup_bio_btn: 'డివైస్ లాక్ సెటప్',
     bio_not_supported: 'ఈ బ్రౌజర్‌లో మద్దతు లేదు.',
+    app_theme: 'యాప్ థీమ్',
+    theme_light: 'లైట్',
+    theme_dark: 'డార్క్',
+    theme_midnight: 'మిడ్‌నైట్ బ్లూ',
   },
   ta: {
     ...baseTranslations,
@@ -575,6 +593,10 @@ const translations: Record<Language, Record<string, string>> = {
     bio_error: 'அங்கீகாரம் தோல்வியடைந்தது.',
     setup_bio_btn: 'சாதன பூட்டு அமைப்பு',
     bio_not_supported: 'இந்த உலாவியில் ஆதரிக்கப்படவில்லை.',
+    app_theme: 'செயலி தீம்',
+    theme_light: 'லைட்',
+    theme_dark: 'டார்க்',
+    theme_midnight: 'மிட்நைட் ப்ளூ',
   },
   mr: {
     ...baseTranslations,
@@ -687,6 +709,10 @@ const translations: Record<Language, Record<string, string>> = {
     bio_error: 'प्रमाणीकरण अयशस्वी.',
     setup_bio_btn: 'डिव्हाइस लॉक सेटअप',
     bio_not_supported: 'या ब्राउझरवर समर्थित नाही.',
+    app_theme: 'ॲप थीम',
+    theme_light: 'लाईट',
+    theme_dark: 'डार्क',
+    theme_midnight: 'मिडनाईट ब्लू',
   },
   gu: {
     ...baseTranslations,
@@ -799,6 +825,10 @@ const translations: Record<Language, Record<string, string>> = {
     bio_error: 'પ્રમાણીકરણ નિષ્ફળ.',
     setup_bio_btn: 'ડિવાઇસ લોક સેટઅપ',
     bio_not_supported: 'આ બ્રાઉઝર પર સમર્થિત નથી.',
+    app_theme: 'એપ્લિકેશન થીમ',
+    theme_light: 'લાઇટ',
+    theme_dark: 'ડાર્ક',
+    theme_midnight: 'મિડનાઇટ બ્લુ',
   },
   kn: {
     ...baseTranslations,
@@ -911,6 +941,10 @@ const translations: Record<Language, Record<string, string>> = {
     bio_error: 'ದೃಢೀಕರಣ ವಿಫಲವಾಗಿದೆ.',
     setup_bio_btn: 'ಸಾಧನ ಲಾಕ್ ಸೆಟಪ್',
     bio_not_supported: 'ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಬೆಂಬಲಿತವಾಗಿಲ್ಲ.',
+    app_theme: 'ಅಪ್ಲಿಕೇಶನ್ ಥೀಮ್',
+    theme_light: 'ಲೈಟ್',
+    theme_dark: 'ಡಾರ್ಕ್',
+    theme_midnight: 'ಮಿಡ್‌ನೈಟ್ ಬ್ಲೂ',
   },
   ml: {
     ...baseTranslations,
@@ -1023,6 +1057,10 @@ const translations: Record<Language, Record<string, string>> = {
     bio_error: 'പ്രാമാണീകരണം പരാജയപ്പെട്ടു.',
     setup_bio_btn: 'ഉപകരണ ലോക്ക് സജ്ജീകരണം',
     bio_not_supported: 'ഈ ബ്രൗസറിൽ പിന്തുണയ്ക്കുന്നില്ല.',
+    app_theme: 'ആപ്പ് തീം',
+    theme_light: 'ലൈറ്റ്',
+    theme_dark: 'ഡാർക്ക്',
+    theme_midnight: 'മിഡ്നൈറ്റ് ബ്ലൂ',
   },
   pa: {
     ...baseTranslations,
@@ -1135,6 +1173,10 @@ const translations: Record<Language, Record<string, string>> = {
     bio_error: 'ਪ੍ਰਮਾਣਿਕਤਾ ਅਸਫਲ ਹੋਈ।',
     setup_bio_btn: 'ਡਿਵਾਈਸ ਲਾਕ ਸੈਟਅਪ',
     bio_not_supported: 'ਇਸ ਬ੍ਰਾਊਜ਼ਰ ਤੇ ਸਮਰਥਿਤ ਨਹੀਂ।',
+    app_theme: 'ਐਪ ਥੀਮ',
+    theme_light: 'ਲਾਈਟ',
+    theme_dark: 'ਡਾਰਕ',
+    theme_midnight: 'ਮਿਡਨਾਈਟ ਬਲੂ',
   },
 };
 
