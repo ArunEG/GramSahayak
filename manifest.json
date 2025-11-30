@@ -34,9 +34,9 @@
   ],
   "screenshots": [
     {
-      "src": "https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=crop&w=500&q=60",
+      "src": "./public/screenshots/screenshot1.png",
       "sizes": "500x800",
-      "type": "image/jpg",
+      "type": "image/png",
       "form_factor": "narrow",
       "label": "Dashboard View"
     }
