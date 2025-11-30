@@ -6,7 +6,14 @@ export default defineConfig({
   plugins: [react()],
   publicDir: 'public', // Ensures files in 'public' are copied to build root
   build: {
-    outDir: 'build', // For Vercel/Create React App compatibility
+    outDir: 'dist', // Changed back to 'dist' as Vercel expects this by default for Vite
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'recharts', 'react-markdown', '@google/genai'],
+        },
+      },
+    },
   },
   define: {
     'process.env': process.env
