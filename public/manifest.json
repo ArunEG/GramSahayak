@@ -1,0 +1,42 @@
+{
+  "short_name": "GramSahayak",
+  "name": "GramSahayak Panchayat Manager",
+  "id": "/",
+  "description": "A digital assistant for Indian Panchayat members.",
+  "icons": [
+    {
+      "src": "/icon-192.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "theme_color": "#ea580c",
+  "background_color": "#f3f4f6",
+  "orientation": "portrait",
+  "categories": ["productivity", "government"],
+  "shortcuts": [
+    {
+      "name": "Log Grievance",
+      "url": "/index.html?action=grievance",
+      "icons": [{ "src": "/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=crop&w=500&q=60",
+      "sizes": "500x800",
+      "type": "image/jpg",
+      "form_factor": "narrow",
+      "label": "Dashboard View"
+    }
+  ]
+}
