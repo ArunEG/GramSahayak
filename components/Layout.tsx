@@ -51,7 +51,13 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, user
                {userProfile ? userProfile.panchayatName : t('subtitle')}
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+             <button
+               onClick={() => setActiveTab('SETTINGS')}
+               className="p-1.5 bg-white/20 hover:bg-white/30 rounded text-white transition-colors"
+             >
+               ⚙️
+             </button>
              <select 
               value={language}
               onChange={handleLanguageChange}

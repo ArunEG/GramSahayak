@@ -9,7 +9,10 @@ import SchemeExplorer from './components/SchemeExplorer';
 import BroadcastManager from './components/BroadcastManager';
 import ScheduleManager from './components/ScheduleManager';
 import Registration from './components/Registration';
+import Settings from './components/Settings';
+import AppLock from './components/AppLock';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { SecurityProvider, useSecurity } from './contexts/SecurityContext';
 import { Grievance, GrievanceStatus, GrievanceCategory, TabView, GrievancePriority, CalendarEvent, EventType, EventStatus, GrievanceAction, UserProfile } from './types';
 
 // Mock Data
@@ -87,6 +90,9 @@ const MainContent: React.FC = () => {
   const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [isCheckingUser, setIsCheckingUser] = useState(true);
+
+  // Security Context
+  const { isAuthenticated } = useSecurity();
 
   // Load User Profile
   useEffect(() => {
@@ -206,6 +212,15 @@ const MainContent: React.FC = () => {
 
   if (isCheckingUser) return null; // Or a loading spinner
 
+  // Logic: 
+  // 1. If Locked -> Show Lock Screen (AppLock)
+  // 2. If Not Registered -> Show Registration
+  // 3. Show App Content
+
+  if (!isAuthenticated) {
+    return <AppLock />;
+  }
+
   if (!userProfile) {
     return <Registration onRegister={handleRegister} />;
   }
@@ -243,6 +258,8 @@ const MainContent: React.FC = () => {
         return <SchemeExplorer />;
       case 'CONNECT':
         return <BroadcastManager userProfile={userProfile} />;
+      case 'SETTINGS':
+        return <Settings />;
       default:
         return <Dashboard grievances={grievances} userProfile={userProfile} />;
     }
@@ -258,7 +275,9 @@ const MainContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <LanguageProvider>
-      <MainContent />
+      <SecurityProvider>
+        <MainContent />
+      </SecurityProvider>
     </LanguageProvider>
   );
 };

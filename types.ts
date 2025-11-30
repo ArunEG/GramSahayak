@@ -82,6 +82,13 @@ export interface UserProfile {
   mobile: string;
 }
 
-export type TabView = 'DASHBOARD' | 'GRIEVANCES' | 'SCHEDULE' | 'DRAFTER' | 'SCHEMES' | 'CONNECT';
+export interface SecurityConfig {
+  isEnabled: boolean;
+  method: 'PIN' | 'BIOMETRIC';
+  pin: string; // 4 digit pin (used if method is PIN)
+  credentialId?: string; // Base64 string for WebAuthn credential
+}
+
+export type TabView = 'DASHBOARD' | 'GRIEVANCES' | 'SCHEDULE' | 'DRAFTER' | 'SCHEMES' | 'CONNECT' | 'SETTINGS';
 
 export type Language = 'en' | 'hi' | 'bn' | 'te' | 'mr' | 'ta' | 'gu' | 'kn' | 'ml' | 'pa';
