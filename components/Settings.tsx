@@ -1,6 +1,4 @@
-
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSecurity } from '../contexts/SecurityContext';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -10,6 +8,28 @@ const Settings: React.FC = () => {
   const [isSettingPin, setIsSettingPin] = useState(false);
   const [newPin, setNewPin] = useState('');
   const [loadingBio, setLoadingBio] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstallClick = () => {
+    if (installPrompt) {
+      installPrompt.prompt();
+      installPrompt.userChoice.then((choiceResult: any) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+        }
+        setInstallPrompt(null);
+      });
+    }
+  };
 
   const handlePinSubmit = () => {
     if (newPin.length === 4) {
@@ -37,6 +57,21 @@ const Settings: React.FC = () => {
           <span>⚙️</span> {t('settings_title')}
         </h2>
       </div>
+
+      {installPrompt && (
+        <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-4 rounded-xl shadow-md text-white flex justify-between items-center">
+            <div>
+                <h3 className="font-bold text-sm">Install GramSahayak</h3>
+                <p className="text-xs text-orange-100">Get the full app experience</p>
+            </div>
+            <button 
+                onClick={handleInstallClick}
+                className="bg-white text-orange-600 px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm"
+            >
+                Install Now
+            </button>
+        </div>
+      )}
 
       <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
          <div className="flex justify-between items-center mb-4">

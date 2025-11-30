@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="theme-color" content="#ea580c" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,15 +12,51 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+      :root {
+        --sat: env(safe-area-inset-top);
+        --sab: env(safe-area-inset-bottom);
+      }
       body {
         font-family: 'Inter', sans-serif;
         background-color: #f3f4f6;
         -webkit-tap-highlight-color: transparent;
+        /* Native App Feel Enhancements */
+        overscroll-behavior-y: none; /* Prevents pull-to-refresh on mobile */
+        user-select: none; /* Prevents text highlighting like an app */
+        -webkit-user-select: none;
+        -webkit-touch-callout: none; /* Disables long-press context menu */
+        touch-action: pan-x pan-y;
       }
       /* Hide scrollbar for cleaner app feel */
       ::-webkit-scrollbar {
         width: 0px;
         background: transparent; 
+      }
+      input, textarea {
+        user-select: text; /* Allow typing in forms */
+        -webkit-user-select: text;
+      }
+      /* Smooth transitions for view switching */
+      .animate-fade-in {
+        animation: fadeIn 0.3s ease-in-out;
+      }
+      .animate-slide-in {
+        animation: slideIn 0.3s ease-out;
+      }
+      .animate-scale-up {
+        animation: scaleUp 0.2s ease-out;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes slideIn {
+        from { transform: translateY(10px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      @keyframes scaleUp {
+        from { transform: scale(0.95); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
       }
     </style>
   <script type="importmap">

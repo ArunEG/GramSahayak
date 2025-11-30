@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { TabView, Language, UserProfile } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -43,7 +41,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, user
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col max-w-md mx-auto shadow-2xl overflow-hidden border-x border-gray-200 font-sans">
       {/* Header */}
-      <header className="bg-orange-600 text-white p-4 sticky top-0 z-50 shadow-md">
+      <header className="bg-orange-600 text-white p-4 sticky top-0 z-50 shadow-md pt-[env(safe-area-inset-top,20px)]">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold leading-tight">{t('app_name')}</h1>
@@ -79,7 +77,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, user
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="bg-white border-t border-gray-200 fixed bottom-0 w-full max-w-md z-40 overflow-x-auto no-scrollbar">
+      <nav className="bg-white border-t border-gray-200 fixed bottom-0 w-full max-w-md z-40 overflow-x-auto no-scrollbar pb-[env(safe-area-inset-bottom,0px)]">
         <div className="flex justify-between items-center h-16 min-w-full px-1">
           {navItems.map((item) => (
             <button
