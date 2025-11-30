@@ -2,7 +2,22 @@
   "short_name": "GramSahayak",
   "name": "GramSahayak Panchayat Manager",
   "id": "/",
-  "description": "A digital assistant for Indian Panchayat members.",
+  "description": "A digital assistant for Indian Panchayat members to manage grievances, draft official letters via AI, and track village development works.",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "scope": "/",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "theme_color": "#ea580c",
+  "background_color": "#f3f4f6",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "categories": ["productivity", "social", "government"],
   "icons": [
     {
       "src": "/icon-192.png",
@@ -17,19 +32,25 @@
       "purpose": "any maskable"
     }
   ],
-  "start_url": "/index.html",
-  "display": "standalone",
-  "theme_color": "#ea580c",
-  "background_color": "#f3f4f6",
-  "orientation": "portrait",
-  "categories": ["productivity", "government"],
   "shortcuts": [
     {
       "name": "Log Grievance",
+      "short_name": "Grievance",
+      "description": "Log a new village grievance",
       "url": "/index.html?action=grievance",
       "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ],
+  "share_target": {
+    "action": "/index.html",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
   "screenshots": [
     {
       "src": "https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=crop&w=500&q=60",
@@ -37,6 +58,13 @@
       "type": "image/jpg",
       "form_factor": "narrow",
       "label": "Dashboard View"
+    },
+    {
+      "src": "https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=crop&w=1200&q=60",
+      "sizes": "1200x800",
+      "type": "image/jpg",
+      "form_factor": "wide",
+      "label": "Dashboard Wide"
     }
   ]
 }
