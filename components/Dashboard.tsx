@@ -1,13 +1,16 @@
+
+
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import { Grievance, GrievanceStatus } from '../types';
+import { Grievance, GrievanceStatus, UserProfile } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface DashboardProps {
   grievances: Grievance[];
+  userProfile?: UserProfile | null;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ grievances }) => {
+const Dashboard: React.FC<DashboardProps> = ({ grievances, userProfile }) => {
   const { t } = useLanguage();
   const pendingCount = grievances.filter(g => g.status === GrievanceStatus.PENDING).length;
   const progressCount = grievances.filter(g => g.status === GrievanceStatus.IN_PROGRESS).length;
@@ -22,8 +25,12 @@ const Dashboard: React.FC<DashboardProps> = ({ grievances }) => {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-        <h2 className="text-lg font-semibold text-gray-800 mb-2">{t('welcome')}</h2>
-        <p className="text-sm text-gray-600">{t('status_msg')}</p>
+        <h2 className="text-lg font-semibold text-gray-800 mb-1">
+          {t('welcome')} {userProfile?.name ? `, ${userProfile.name}` : ''}
+        </h2>
+        <p className="text-sm text-gray-600">
+          {t('status_msg_prefix')} <span className="font-bold text-orange-600">{userProfile?.wardNumber || '4'}</span>
+        </p>
       </div>
 
       <div className="grid grid-cols-3 gap-3">

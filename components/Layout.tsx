@@ -1,15 +1,17 @@
 
+
 import React from 'react';
-import { TabView, Language } from '../types';
+import { TabView, Language, UserProfile } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface LayoutProps {
   children: React.ReactNode;
   activeTab: TabView;
   setActiveTab: (tab: TabView) => void;
+  userProfile?: UserProfile | null;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) => {
+const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, userProfile }) => {
   const { language, setLanguage, t } = useLanguage();
 
   const navItems: { id: TabView; label: string; icon: string }[] = [
@@ -45,7 +47,9 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold leading-tight">{t('app_name')}</h1>
-            <p className="text-xs text-orange-100 opacity-90">{t('subtitle')}</p>
+            <p className="text-xs text-orange-100 opacity-90 font-medium">
+               {userProfile ? userProfile.panchayatName : t('subtitle')}
+            </p>
           </div>
           <div className="flex items-center gap-3">
              <select 

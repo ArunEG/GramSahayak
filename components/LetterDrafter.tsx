@@ -1,8 +1,15 @@
+
+
 import React, { useState } from 'react';
 import { generateOfficialLetter } from '../services/geminiService';
 import { useLanguage } from '../contexts/LanguageContext';
+import { UserProfile } from '../types';
 
-const LetterDrafter: React.FC = () => {
+interface LetterDrafterProps {
+  userProfile?: UserProfile | null;
+}
+
+const LetterDrafter: React.FC<LetterDrafterProps> = ({ userProfile }) => {
   const { t, language } = useLanguage();
   const [recipient, setRecipient] = useState('');
   const [subject, setSubject] = useState('');
@@ -16,9 +23,14 @@ const LetterDrafter: React.FC = () => {
       alert("Please fill in all fields");
       return;
     }
+    if (!userProfile) {
+       alert("User profile missing. Please re-login.");
+       return;
+    }
+
     setIsLoading(true);
-    // Pass the current language to the AI service
-    const result = await generateOfficialLetter(recipient, subject, details, tone, language);
+    // Pass the current language and user profile to the AI service
+    const result = await generateOfficialLetter(recipient, subject, details, userProfile, tone, language);
     setGeneratedLetter(result);
     setIsLoading(false);
   };

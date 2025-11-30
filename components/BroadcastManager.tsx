@@ -1,8 +1,15 @@
+
+
 import React, { useState } from 'react';
 import { generateBroadcastMessage } from '../services/geminiService';
 import { useLanguage } from '../contexts/LanguageContext';
+import { UserProfile } from '../types';
 
-const BroadcastManager: React.FC = () => {
+interface BroadcastManagerProps {
+  userProfile?: UserProfile | null;
+}
+
+const BroadcastManager: React.FC<BroadcastManagerProps> = ({ userProfile }) => {
   const { t, language: appLanguage } = useLanguage();
   const [topic, setTopic] = useState('');
   const [language, setLanguage] = useState<'English' | 'Hindi' | 'Hinglish' | 'Local'>('Local');
@@ -14,9 +21,13 @@ const BroadcastManager: React.FC = () => {
       alert("Please enter a topic for the update.");
       return;
     }
+    if (!userProfile) {
+       alert("User profile missing. Please re-login.");
+       return;
+    }
     setIsLoading(true);
     // Pass the app's current language to the service
-    const result = await generateBroadcastMessage(topic, language, appLanguage);
+    const result = await generateBroadcastMessage(topic, userProfile, language, appLanguage);
     setMessage(result);
     setIsLoading(false);
   };

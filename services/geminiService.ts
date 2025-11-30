@@ -1,5 +1,7 @@
+
+
 import { GoogleGenAI } from "@google/genai";
-import { Language } from '../types';
+import { Language, UserProfile } from '../types';
 
 const apiKey = process.env.API_KEY || '';
 const ai = new GoogleGenAI({ apiKey });
@@ -24,6 +26,7 @@ export const generateOfficialLetter = async (
   recipient: string,
   subject: string,
   details: string,
+  userProfile: UserProfile,
   tone: 'Formal' | 'Urgent' | 'Request' = 'Formal',
   language: Language = 'en'
 ): Promise<string> => {
@@ -41,13 +44,22 @@ export const generateOfficialLetter = async (
     Tone: ${tone}
     Details of the issue/request: ${details}
 
+    Sender Details (For Signature):
+    Name: ${userProfile.name}
+    Ward Number: ${userProfile.wardNumber}
+    Panchayat: ${userProfile.panchayatName}
+
     Rules:
     1. Use standard official correspondence format suitable for Indian government offices.
     2. Be respectful but firm.
-    3. Include placeholders for [Date], [Ward Number], and [Signature] if not provided.
+    3. Include placeholders for [Date] if not provided.
     4. Keep it concise (under 300 words).
     5. Output ONLY the letter body text, no conversational filler.
-    6. If an Indian language is chosen, ensure the terminology is formal (Official/Karyalaya bhasha).
+    6. Sign off clearly as:
+       ${userProfile.name}
+       Ward Member, Ward ${userProfile.wardNumber}
+       ${userProfile.panchayatName}
+    7. If an Indian language is chosen, ensure the terminology is formal (Official/Karyalaya bhasha).
   `;
 
   try {
@@ -97,6 +109,7 @@ export const askSchemeInfo = async (query: string, language: Language = 'en'): P
 
 export const generateBroadcastMessage = async (
   topic: string, 
+  userProfile: UserProfile,
   language: 'English' | 'Hindi' | 'Hinglish' | 'Local' = 'Hinglish',
   appLanguage: Language = 'en'
 ): Promise<string> => {
@@ -113,6 +126,8 @@ export const generateBroadcastMessage = async (
 
     Topic/Update: ${topic}
     Language: ${targetLang}
+    Sender Name: ${userProfile.name}
+    Sender Ward: ${userProfile.wardNumber}
 
     Rules:
     1. Start with a polite greeting (e.g., Namaste / Pranam / Vanakkam).
@@ -120,7 +135,9 @@ export const generateBroadcastMessage = async (
     3. Keep it clear, concise, and respectful.
     4. If 'Hinglish' is selected, use Romanized Hindi mixed with English terms.
     5. If a specific Indian language is selected, use the native script.
-    6. Sign off as "Ward Member, Ward 4".
+    6. Sign off as:
+       ${userProfile.name}
+       Ward Member, Ward ${userProfile.wardNumber}
     7. Output ONLY the message content.
   `;
 

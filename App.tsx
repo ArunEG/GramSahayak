@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
@@ -7,8 +8,9 @@ import LetterDrafter from './components/LetterDrafter';
 import SchemeExplorer from './components/SchemeExplorer';
 import BroadcastManager from './components/BroadcastManager';
 import ScheduleManager from './components/ScheduleManager';
+import Registration from './components/Registration';
 import { LanguageProvider } from './contexts/LanguageContext';
-import { Grievance, GrievanceStatus, GrievanceCategory, TabView, GrievancePriority, CalendarEvent, EventType, EventStatus, GrievanceAction } from './types';
+import { Grievance, GrievanceStatus, GrievanceCategory, TabView, GrievancePriority, CalendarEvent, EventType, EventStatus, GrievanceAction, UserProfile } from './types';
 
 // Mock Data
 const initialGrievances: Grievance[] = [
@@ -83,10 +85,25 @@ const MainContent: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabView>('DASHBOARD');
   const [grievances, setGrievances] = useState<Grievance[]>(initialGrievances);
   const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [isCheckingUser, setIsCheckingUser] = useState(true);
+
+  // Load User Profile
+  useEffect(() => {
+    const storedUser = localStorage.getItem('gramSahayak_user');
+    if (storedUser) {
+      setUserProfile(JSON.parse(storedUser));
+    }
+    setIsCheckingUser(false);
+  }, []);
+
+  const handleRegister = (profile: UserProfile) => {
+    setUserProfile(profile);
+    localStorage.setItem('gramSahayak_user', JSON.stringify(profile));
+  };
 
   // --- Notification Logic ---
   useEffect(() => {
-    // Request permission on load
     if ("Notification" in window) {
       Notification.requestPermission();
     }
@@ -100,21 +117,16 @@ const MainContent: React.FC = () => {
         const diffMs = eventTime.getTime() - now.getTime();
         const diffMins = Math.round(diffMs / 60000);
 
-        // Notify if event is in exactly 15 minutes (allowing small window)
         if (diffMins === 15) {
           if (Notification.permission === "granted") {
             new Notification(`Upcoming Event: ${event.title}`, {
               body: `Starts at ${event.time}. Prepare to attend.`,
               icon: 'https://cdn-icons-png.flaticon.com/512/2983/2983804.png'
             });
-          } else {
-            // Fallback alert
-            // alert(`Reminder: ${event.title} is in 15 minutes!`); 
-            // Commenting out alert to avoid spam during dev, in real app push notif is better
           }
         }
       });
-    }, 60000); // Check every minute
+    }, 60000);
 
     return () => clearInterval(checkEvents);
   }, [events]);
@@ -164,8 +176,6 @@ const MainContent: React.FC = () => {
   // --- Event Logic ---
   const addEvent = (e: CalendarEvent) => {
     setEvents(prev => [...prev, e]);
-    
-    // If event is linked to a grievance, add an action to that grievance history
     if (e.grievanceId) {
         setGrievances(prev => prev.map(g => {
             if (g.id === e.grievanceId) {
@@ -194,10 +204,16 @@ const MainContent: React.FC = () => {
     setEvents(prev => prev.filter(e => e.id !== id));
   };
 
+  if (isCheckingUser) return null; // Or a loading spinner
+
+  if (!userProfile) {
+    return <Registration onRegister={handleRegister} />;
+  }
+
   const renderContent = () => {
     switch (activeTab) {
       case 'DASHBOARD':
-        return <Dashboard grievances={grievances} />;
+        return <Dashboard grievances={grievances} userProfile={userProfile} />;
       case 'GRIEVANCES':
         return (
           <GrievanceLog 
@@ -222,18 +238,18 @@ const MainContent: React.FC = () => {
           />
         );
       case 'DRAFTER':
-        return <LetterDrafter />;
+        return <LetterDrafter userProfile={userProfile} />;
       case 'SCHEMES':
         return <SchemeExplorer />;
       case 'CONNECT':
-        return <BroadcastManager />;
+        return <BroadcastManager userProfile={userProfile} />;
       default:
-        return <Dashboard grievances={grievances} />;
+        return <Dashboard grievances={grievances} userProfile={userProfile} />;
     }
   };
 
   return (
-    <Layout activeTab={activeTab} setActiveTab={setActiveTab}>
+    <Layout activeTab={activeTab} setActiveTab={setActiveTab} userProfile={userProfile}>
       {renderContent()}
     </Layout>
   );

@@ -1,4 +1,5 @@
 
+
 export enum GrievanceStatus {
   PENDING = 'Pending',
   IN_PROGRESS = 'In Progress',
@@ -72,6 +73,13 @@ export interface SchemeInfo {
   description: string;
   eligibility: string[];
   documentsRequired: string[];
+}
+
+export interface UserProfile {
+  name: string;
+  wardNumber: string;
+  panchayatName: string;
+  mobile: string;
 }
 
 export type TabView = 'DASHBOARD' | 'GRIEVANCES' | 'SCHEDULE' | 'DRAFTER' | 'SCHEMES' | 'CONNECT';
